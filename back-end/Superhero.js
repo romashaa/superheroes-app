@@ -21,8 +21,9 @@ const Superhero = new mongoose.Schema({
         type: String,
         required: true,
     },
-    images: {
-        type: String
-    },
+    images: [{
+        type: String,
+       required: true,
+    }],
 });
 export default mongoose.model("Superhero", Superhero);

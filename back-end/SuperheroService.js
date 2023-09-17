@@ -1,8 +1,15 @@
 import Superhero from "./Superhero.js";
 
 class SuperheroService {
-    async create (superhero, picture) {
-        return await Superhero.create(superhero);
+    async create(superheroData, images) {
+        try {
+            const imagePaths = images.map((image) => image.path);
+            superheroData.images = imagePaths;
+            const superhero = await Superhero.create(superheroData);
+            return superhero;
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 
     async getAll () {

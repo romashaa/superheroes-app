@@ -4,11 +4,10 @@ import SuperheroService from "./SuperheroService.js";
 class SuperheroController {
     async create (req, res) {
         try {
-            console.log(req.files)
-            const superhero = await SuperheroService.create(req.body)
+            const superhero = await SuperheroService.create(req.body, req.files)
             res.json(superhero);
         } catch (e){
-            res.status(500).json(e);
+            res.status(500).json(e.message);
         }
     }
 
@@ -30,6 +29,8 @@ class SuperheroController {
     }
     async edit (req, res) {
         try{
+            console.log(req.body._id)
+            console.log(req.body.nickname)
             const updatedSuperhero = await SuperheroService.edit(req.body);
             return res.json(updatedSuperhero);
         } catch (e){
