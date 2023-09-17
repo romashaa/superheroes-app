@@ -23,11 +23,23 @@ class SuperheroService {
             const superhero = await Superhero.findById(id);
             return superhero;
     }
-    async edit (superhero) {
-        if(!superhero._id){
-            throw new Error("Id wasn't specified");
-        }
-        const updatedSuperhero = await Superhero.findByIdAndUpdate(superhero._id, superhero, {new: true});
+    // async edit (superhero) {
+    //     if(!superhero._id){
+    //         throw new Error("Id wasn't specified");
+    //     }
+    //     const updatedSuperhero = await Superhero.findByIdAndUpdate(superhero._id, superhero, {new: true});
+    //     return updatedSuperhero;
+    // }
+
+    async edit(superheroId, updatedFields, images) {
+        const imagePaths = images.map((image) => image.path);
+        updatedFields.images = imagePaths;
+        const updatedSuperhero = await Superhero.findByIdAndUpdate(
+            superheroId,
+            updatedFields,
+            { new: true, runValidators: true }
+        );
+        console.log(updatedSuperhero);
         return updatedSuperhero;
     }
     async delete (id) {

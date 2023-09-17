@@ -1,20 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from "react-bootstrap/Card";
 
 const SuperheroItem = ({superhero}) => {
+    const [isHovered, setIsHovered] = useState(false);
     const cardStyle = {
-        width: '18rem',
-        border: '2px solid #ccc',
-        borderRadius:'5px'
+        width: '20%',
+        height:'auto',
+        border: `${isHovered ? '4px' : '2px'} solid ${isHovered ? 'blue' : '#ccc'}`,
+        borderRadius:'5px',
+        margin: '10px',
+        padding:'5px',
+        transition: 'border-color 0.7s ease'
     };
 
     const imageStyle = {
-        width: '90%',
-        padding:'7px'
+        width: '100%',
+        height: '80%',
+        margin:'auto'
+    };
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
     };
     return (
-        <Card style={cardStyle}>
-            {/*<Card.Img variant="top" style={imageStyle} src={superhero.images[0]} alt={superhero.nickname} />*/}
+        <Card
+            style={cardStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
+            <Card.Img variant="top" style={imageStyle} src={superhero.images[0]} alt={superhero.nickname} />
             <Card.Body>
                 <Card.Title><h2>{superhero.nickname}</h2></Card.Title>
             </Card.Body>

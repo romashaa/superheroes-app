@@ -26,6 +26,6 @@ const upload = multer({
 router.post('/superheroes', upload.array('images'), SuperheroController.create)
 router.get('/superheroes', SuperheroController.getAll)
 router.get('/superheroes/:id', SuperheroController.getOne)
-router.put('/superheroes', SuperheroController.edit)
+router.put('/superheroes/:id', upload.array('images'), SuperheroController.edit);
 router.delete('/superheroes/:id', SuperheroController.delete)
 export default router;

@@ -23,7 +23,7 @@ const Superhero = new mongoose.Schema({
     },
     images: [{
         type: String,
-       required: true,
+        required: true,
     }],
 });
 export default mongoose.model("Superhero", Superhero);

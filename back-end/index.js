@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use('/api', router);
 app.use(fileUpload({}))
-app.use(express.static('static'))
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
