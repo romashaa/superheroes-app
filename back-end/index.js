@@ -5,6 +5,7 @@ import router from "./router.js";
 import fileUpload from 'express-fileupload';
 import bodyParser from "body-parser";
 import multer from 'multer';
+import {join} from "path";
 
 const PORT = 5000;
 const DB_URL = "mongodb+srv://romashaa:supeRhero2359@cluster0.coxuf5e.mongodb.net/?retryWrites=true&w=majority";

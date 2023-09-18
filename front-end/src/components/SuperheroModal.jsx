@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, Form, Modal, Alert} from "react-bootstrap";
 import availableSuperpowers from "../Superpowers";
 
 const SuperheroModal = ({ showModal, onClose, onCreate }) => {
@@ -11,6 +11,7 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
         catch_phrase: '',
         images: [],
     });
+    const [showError, setShowError] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,16 +24,43 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
     };
 
     const handleSubmit = () => {
-        onCreate(superheroData);
-        onClose();
+        if (
+            superheroData.nickname === '' ||
+            superheroData.real_name === '' ||
+            superheroData.origin_description === '' ||
+            superheroData.superpowers.length === 0 ||
+            superheroData.catch_phrase === '' ||
+            superheroData.images.length === 0
+        ) {
+            setShowError(true);
+        } else {
+            onCreate(superheroData);
+            setSuperheroData({
+                nickname: '',
+                real_name: '',
+                origin_description: '',
+                superpowers: [],
+                catch_phrase: '',
+                images: [],
+            });
+            setShowError(false);
+            onClose();
+        }
     };
+    const handleClose = () =>{
+        onClose();
+        setShowError(false);
+    }
 
     return (
-        <Modal show={showModal} onHide={onClose}>
+        <Modal show={showModal} onHide={handleClose}>
             <Modal.Header>
                 <Modal.Title>Create New Superhero</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {showError && (
+                    <Alert variant="danger">Please fill in all required fields.</Alert>
+                )}
                 <Form>
                     <Form.Group>
                         <Form.Label>Nickname</Form.Label>
@@ -94,7 +122,7 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
                             accept=".jpg, .jpeg, .png"
                             multiple
                             onChange={(e) => {
-                                const selectedImages = Array.from(e.target.files); // Convert FileList to an array
+                                const selectedImages = Array.from(e.target.files);
                                 setSuperheroData({ ...superheroData, images: selectedImages });
                             }}
                         />
@@ -102,7 +130,7 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>
+                <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={handleSubmit}>

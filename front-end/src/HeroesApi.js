@@ -10,6 +10,16 @@ export async function fetchSuperheroes() {
         throw error;
     }
 }
+
+export const fetchSuperheroById = async (id) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const createSuperhero = async (superheroData) => {
     try {
         const formData = new FormData();
