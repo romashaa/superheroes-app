@@ -28,4 +28,5 @@ router.get('/superheroes', SuperheroController.getAll)
 router.get('/superheroes/:id', SuperheroController.getOne)
 router.put('/superheroes/:id', upload.array('images'), SuperheroController.edit);
 router.delete('/superheroes/:id', SuperheroController.delete)
+router.delete('/superheroes/:id/images',SuperheroController.deleteImages)
 export default router;

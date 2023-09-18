@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal, Alert} from "react-bootstrap";
 import availableSuperpowers from "../Superpowers";
+import {FaTrash, FaTrashAlt} from "react-icons/fa";
 
-const SuperheroModal = ({ showModal, onClose, onCreate }) => {
-    const [superheroData, setSuperheroData] = useState({
+const SuperheroModal = ({ showModal, onClose, onCreate, editedSuperhero }) => {
+    const [superheroData, setSuperheroData] = useState(editedSuperhero || {
         nickname: '',
         real_name: '',
         origin_description: '',
@@ -52,10 +53,15 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
         setShowError(false);
     }
 
+    const handleRemoveImage = (indexToRemove) => {
+        const updatedImages = superheroData.images.filter((_, index) => index !== indexToRemove);
+        setSuperheroData({ ...superheroData, images: updatedImages });
+    };
+
     return (
         <Modal show={showModal} onHide={handleClose}>
             <Modal.Header>
-                <Modal.Title>Create New Superhero</Modal.Title>
+                <Modal.Title>{editedSuperhero ? "Edit" : "Create new"} Superhero</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {showError && (
@@ -127,6 +133,20 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
                             }}
                         />
                     </Form.Group>
+
+                    {/*{editedSuperhero && (<div className="existing-images">*/}
+                    {/*    {superheroData.images.map((image, index) => (*/}
+                    {/*        <div key={index} className="existing-image">*/}
+                    {/*            <span>{image}</span>*/}
+                    {/*            <FaTrashAlt*/}
+                    {/*                onClick={(e) => {*/}
+                    {/*                    e.preventDefault();*/}
+                    {/*                    e.stopPropagation();*/}
+                    {/*                    handleRemoveImage(index);*/}
+                    {/*                }}/>*/}
+                    {/*        </div>*/}
+                    {/*    ))}*/}
+                    {/*</div>)}*/}
                 </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -134,7 +154,7 @@ const SuperheroModal = ({ showModal, onClose, onCreate }) => {
                     Close
                 </Button>
                 <Button variant="primary" onClick={handleSubmit}>
-                    Create Superhero
+                    Submit
                 </Button>
             </Modal.Footer>
         </Modal>

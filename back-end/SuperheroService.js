@@ -1,4 +1,6 @@
 import Superhero from "./Superhero.js";
+import {join} from "path";
+import {unlinkSync} from "fs";
 
 class SuperheroService {
     async create(superheroData, images) {
@@ -23,13 +25,6 @@ class SuperheroService {
             const superhero = await Superhero.findById(id);
             return superhero;
     }
-    // async edit (superhero) {
-    //     if(!superhero._id){
-    //         throw new Error("Id wasn't specified");
-    //     }
-    //     const updatedSuperhero = await Superhero.findByIdAndUpdate(superhero._id, superhero, {new: true});
-    //     return updatedSuperhero;
-    // }
 
     async edit(superheroId, updatedFields, images) {
         const imagePaths = images.map((image) => image.path);
@@ -49,6 +44,7 @@ class SuperheroService {
         const superhero = await Superhero.findByIdAndDelete(id);
         return superhero;
     }
+
 }
 
 export default new SuperheroService();

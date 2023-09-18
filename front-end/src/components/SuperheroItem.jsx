@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 const SuperheroItem = ({superhero}) => {
     const [isHovered, setIsHovered] = useState(false);
     const cardStyle = {
-        width: '17vw',
+        width: 'auto',
         height:'60vh',
         border: `${isHovered ? '4px' : '2px'} solid ${isHovered ? 'blue' : '#ccc'}`,
         borderRadius:'5px',

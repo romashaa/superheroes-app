@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
-import {fetchSuperheroById} from "../HeroesApi";
+import {deleteSuperhero, editSuperhero, fetchSuperheroById} from "../HeroesApi";
 import Card from "react-bootstrap/Card";
 import {API_URL} from "../consts";
 import Button from "react-bootstrap/Button";
+import SuperheroModal from "../components/SuperheroModal";
 
 const SuperHeroDetails = () => {
     const { id } = useParams();
     const [superhero, setSuperhero] = useState(null);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [editedSuperhero, setEditedSuperhero] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchSuperhero() {
             try {
                 const data = await fetchSuperheroById(id);
                 setSuperhero(data);
-                console.log(data)
             } catch (error) {
                 console.error('Error fetching superhero details:', error);
             }
@@ -23,9 +26,28 @@ const SuperHeroDetails = () => {
         fetchSuperhero();
     }, [id]);
 
+    const handleEditClick = () => {
+        setEditModalOpen(true);
+        setEditedSuperhero(superhero);
+    };
+    const handleDeleteClick = () => {
+        deleteSuperhero(superhero._id);
+        navigate("/")
+    }
+
     if (!superhero) {
         return <Spinner className="spinner" animation="border"/>;
     }
+    const handleEditSuperhero = async (superheroData) => {
+        try {
+            const updatedSuperhero = await editSuperhero(editedSuperhero._id, superheroData);
+            setSuperhero(updatedSuperhero);
+            setEditModalOpen(false);
+        } catch (error) {
+            console.error('Error editing superhero:', error);
+        }
+    };
+
 
     return (
         <div className="superhero-details-page">
@@ -56,10 +78,17 @@ const SuperHeroDetails = () => {
                     <Card.Text>
                         <strong>Catch phrase:</strong> {superhero.catch_phrase}
                     </Card.Text>
-                    <Button style={{marginRight:'10px'}} variant="success">Edit</Button>
-                    <Button variant="danger">Delete</Button>
+                    <Button style={{marginRight:'10px'}} variant="success" onClick={handleEditClick}>Edit</Button>
+                    <Button variant="danger" onClick={handleDeleteClick}>Delete</Button>
                 </Card.Body>
             </Card>
+            <SuperheroModal
+                showModal={editModalOpen}
+                onClose={() => setEditModalOpen(false)}
+                onCreate={handleEditSuperhero}
+                editedSuperhero={superhero}
+
+            />
         </div>
     );
 };
