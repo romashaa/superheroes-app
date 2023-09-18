@@ -1,9 +1,9 @@
-import {Router} from "express";
-import SuperheroController from "./SuperheroController.js";
-import multer from "multer";
-import { v4 as uuidv4 } from 'uuid';
+const express = require('express');
+const SuperheroController = require('./SuperheroController.js');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
 
-const router = new Router();
+const router = express.Router();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -29,4 +29,5 @@ router.get('/superheroes/:id', SuperheroController.getOne)
 router.put('/superheroes/:id', upload.array('images'), SuperheroController.edit);
 router.delete('/superheroes/:id', SuperheroController.delete)
 router.delete('/superheroes/:id/images',SuperheroController.deleteImages)
-export default router;
+
+module.exports = router;

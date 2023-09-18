@@ -1,5 +1,4 @@
-import Superhero from "./Superhero.js";
-import SuperheroService from "./SuperheroService.js";
+const SuperheroService = require('./SuperheroService.js');
 
 class SuperheroController {
     async create (req, res) {
@@ -77,4 +76,4 @@ class SuperheroController {
     }
 }
 
-export default new SuperheroController();
+module.exports = new SuperheroController();

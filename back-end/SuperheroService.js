@@ -1,5 +1,5 @@
-import Superhero from "./Superhero.js";
 
+const Superhero = require('./Superhero.js');
 
 class SuperheroService {
     async create(superheroData, images) {
@@ -46,4 +46,4 @@ class SuperheroService {
 
 }
 
-export default new SuperheroService();
+module.exports = new SuperheroService();

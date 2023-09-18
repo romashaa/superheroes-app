@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const Superhero = new mongoose.Schema({
     nickname: {
@@ -26,4 +26,4 @@ const Superhero = new mongoose.Schema({
         required: true,
     }],
 });
-export default mongoose.model("Superhero", Superhero);
+module.exports = mongoose.model("Superhero", Superhero);
