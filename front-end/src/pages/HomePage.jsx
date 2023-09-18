@@ -16,7 +16,7 @@ const HomePage = () => {
     };
     return (
         <div>
-            <Button variant="primary" onClick={openModal}>Create New Superhero</Button>
+            <Button variant="primary" onClick={openModal} className="add-button">Create New Superhero</Button>
             <SuperheroList/>
             <SuperheroModal showModal={showModal} onClose={closeModal} onCreate={(superheroData) => {
                 console.log(superheroData);

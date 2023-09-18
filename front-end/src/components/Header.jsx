@@ -9,10 +9,9 @@ const Header = () => {
         <Navbar style={{backgroundColor:"#22668D"}} variant="dark" expand="lg">
             <Container>
                 <Link to="/" className="navbar-brand">
-                    <FontAwesomeIcon icon={faHome} className="mr-2" />
-                    Superheroes App
+                    <FontAwesomeIcon icon={faHome} className="mr-2" style={{marginRight:'10px'}}/>
+                        Superheroes App
                 </Link>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
             </Container>
         </Navbar>
     );

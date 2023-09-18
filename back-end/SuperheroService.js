@@ -1,6 +1,5 @@
 import Superhero from "./Superhero.js";
-import {join} from "path";
-import {unlinkSync} from "fs";
+
 
 class SuperheroService {
     async create(superheroData, images) {
