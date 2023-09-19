@@ -1,18 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Modal, Alert} from "react-bootstrap";
 import availableSuperpowers from "../Superpowers";
 import {FaTrash, FaTrashAlt} from "react-icons/fa";
+import {API_URL} from "../consts";
 
 const SuperheroModal = ({ showModal, onClose, onCreate, editedSuperhero }) => {
-    const [superheroData, setSuperheroData] = useState(editedSuperhero || {
+    const emptySuperhero = {
         nickname: '',
         real_name: '',
         origin_description: '',
         superpowers: [],
         catch_phrase: '',
         images: [],
-    });
+    }
+    const [superheroData, setSuperheroData] = useState(editedSuperhero || emptySuperhero);
     const [showError, setShowError] = useState(false);
+    useEffect(() => {
+        if (editedSuperhero) {
+            setSuperheroData(editedSuperhero);
+        }
+    }, [editedSuperhero]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,25 +43,39 @@ const SuperheroModal = ({ showModal, onClose, onCreate, editedSuperhero }) => {
             setShowError(true);
         } else {
             onCreate(superheroData);
-            setSuperheroData({
-                nickname: '',
-                real_name: '',
-                origin_description: '',
-                superpowers: [],
-                catch_phrase: '',
-                images: [],
-            });
+            {!editedSuperhero && setSuperheroData(emptySuperhero);}
             setShowError(false);
             onClose();
         }
     };
     const handleClose = () =>{
+        {!editedSuperhero && setSuperheroData(emptySuperhero)}
         onClose();
         setShowError(false);
     }
 
+    // const handleImageChange = (e) => {
+    //     const selectedImages = Array.from(e.target.files);
+    //     const existingImages = editedSuperhero.images || [];
+    //     setSuperheroData({
+    //         ...superheroData,
+    //         images: [...existingImages, ...selectedImages],
+    //     });
+    // };
+    const handleImageChange = (e) => {
+        const selectedImages = Array.from(e.target.files);
+        const existingImages = editedSuperhero ? editedSuperhero.images : [];
+        setSuperheroData({
+            ...superheroData,
+            images: [...existingImages, ...selectedImages],
+        });
+    };
+
+
     const handleRemoveImage = (indexToRemove) => {
-        const updatedImages = superheroData.images.filter((_, index) => index !== indexToRemove);
+        const updatedImages = superheroData.images.filter(
+            (_, index) => index !== indexToRemove
+        );
         setSuperheroData({ ...superheroData, images: updatedImages });
     };
 
@@ -127,26 +148,40 @@ const SuperheroModal = ({ showModal, onClose, onCreate, editedSuperhero }) => {
                             name="images"
                             accept=".jpg, .jpeg, .png"
                             multiple
-                            onChange={(e) => {
-                                const selectedImages = Array.from(e.target.files);
-                                setSuperheroData({ ...superheroData, images: selectedImages });
-                            }}
+                            onChange={handleImageChange}
                         />
                     </Form.Group>
-
-                    {/*{editedSuperhero && (<div className="existing-images">*/}
-                    {/*    {superheroData.images.map((image, index) => (*/}
-                    {/*        <div key={index} className="existing-image">*/}
-                    {/*            <span>{image}</span>*/}
-                    {/*            <FaTrashAlt*/}
-                    {/*                onClick={(e) => {*/}
-                    {/*                    e.preventDefault();*/}
-                    {/*                    e.stopPropagation();*/}
-                    {/*                    handleRemoveImage(index);*/}
-                    {/*                }}/>*/}
-                    {/*        </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>)}*/}
+                    {superheroData.images.length > 0 && (
+                        <div>
+                            <p>Selected Images:</p>
+                            <ul>
+                                {editedSuperhero && (editedSuperhero.images.map((image, index) => (
+                                    <li key={index}>
+                                        <span>{image}</span>
+                                        <button
+                                            type="button"
+                                            style={{border:'none', backgroundColor:'white'}}
+                                            onClick={() => handleRemoveImage(index)}
+                                        >
+                                            <FaTrashAlt/>
+                                        </button>
+                                    </li>
+                                )))}
+                                {superheroData.images.map((image, index) => (
+                                    <li key={index}>
+                                        <span>{image.name}</span>
+                                        <button
+                                            type="button"
+                                            style={{border:'none', backgroundColor:'white'}}
+                                            onClick={() => handleRemoveImage(index)}
+                                        >
+                                            <FaTrashAlt/>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </Form>
             </Modal.Body>
             <Modal.Footer>
