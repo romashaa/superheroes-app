@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import {API_URL} from "./consts";
 
-const API_BASE_URL = "/api/superheroes";
+const API_BASE_URL = `/api/superheroes`;
 
 export const fetchSuperheroes = async () => {
     try {
