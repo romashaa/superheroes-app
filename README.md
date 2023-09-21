@@ -42,7 +42,7 @@ export const API_URL="http://localhost:1234/"
 ```
 Then open package.json file, find "proxy" setting and replace it with your API_URL:
 ```
-"proxy": "http://localhost:5000/",
+"proxy": "http://localhost:1234/",
 ```
 
 Run following commands to bootstrap application:
