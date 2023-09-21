@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+.spinner{
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+}
+.superhero-details-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-list-container {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.image-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.image-item {
+  max-width: 200px;
+  height: auto;
+}
+.hero-card {
+  margin-top: 15px;
+  width: 70%;
+  text-align: left;
+}
+.pag-buttons{
+  margin-left: 10px;
+}
+.add-button{
+  margin-top: 10px;
+}
